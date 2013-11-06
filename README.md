@@ -15,7 +15,7 @@ To use Premote, you need to have [Q](https://github.com/kriskowal/q) imported on
 
 You simply use Premote's `wrap()` function to turn any Remote action function into function that returns a Q promise. Here is the basic usage:
 
-``js
+```js
 var getAccount = Premote.wrap('MyController.getAccount');
 
 getAccount(accountId)
