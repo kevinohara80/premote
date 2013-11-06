@@ -56,6 +56,54 @@ Remember that Visualforce has tags to output the fully-qualified remote action n
 var getAccount = Premote.wrap('{!$RemoteAction.MyController.getAccount}');
 ```
 
+## Advanced Examples
+
+Say you have two Remote Actions, one to create an Account and one to create a Contact and you need to create an Account with multiple Contacts associated to it.
+
+Doing this requires that the Account is created first so you can get the AccountId. Only after the Account is created can you create the Contacts because you need the AccountId to be able to associate them.
+
+Since our `createContact` function only creates one contact at a time, it would be nice if we could create the Account, then create the Contacts in parallel http requests, then resolve a single promise back to the user.
+
+Here is a how you would compose a single function to do all of that:
+
+```js
+var createAccount = Premote.wrap('MyController.createAccount');
+var createContact = Premote.wrap('MyController.createContact');
+
+function createAccountWithContacts(account, contacts) {
+  // create the account first
+  return createAccount(account)
+    // create the contacts in parallel
+    .then(function(acc) { 
+      var promises = [];
+      contacts.forEach(function(con) {
+        con.AccountId = acc.Id;
+        promises.push(createContact(con));
+      });
+      return Q.all(promises);
+    });
+};
+```
+
+Now we can use it:
+
+```js
+var account = { Name: 'ABC Company', Industry: 'Manufacturing'};
+
+var contacts = [
+  { FirstName: 'Johnny', LastName: 'Dough', Email: 'jd@test.com' },
+  { FirstName: 'Bobby', LastName: 'Tester', Email: 'bt@test.com' }
+];
+
+createAccountWithContacts(account, contacts)
+  .then(function(){
+    console.log('account and contacts created');
+  })
+  .fail(function(){
+    console.error('an error occurred');
+  });
+```
+
 ## Benefits
 
 The main benefit is that **Premote** allows you to use true promises to manage asynchronous flow control when invoking Javascript Remote Action. If you aren't familiar with promises, I highly recommend you read the documentation from the [Q](https://github.com/kriskowal/q) README.
