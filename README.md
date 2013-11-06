@@ -1,15 +1,15 @@
 # Premote
 
-Javascript Remoting in Visualforce has an ugly api. **Premote** fixes this by letting you wrap your Remote Action calls in a promise based on [Q](https://github.com/kriskowal/q).
+[Javascript Remoting](http://www.salesforce.com/us/developer/docs/pages/Content/pages_js_remoting.htm) in Visualforce has an ugly api. **Premote** fixes this by letting you wrap your Remote Action calls in a promise based on [Q](https://github.com/kriskowal/q).
 
 ## Requirements
 
-To use Premote, you need to have [Q](https://github.com/kriskowal/q) imported on to your page.
+To use Premote, you need to be using [Q](https://github.com/kriskowal/q).
 
 ## Installing
 
 * Include **Q** on your page in a `<script>` tag
-* Include **Premote** on your page using a script tag
+* Include **Premote** on your page using a `<script>` tag
 
 ## Usage
 
@@ -55,3 +55,7 @@ Remember that Visualforce has tags to output the fully-qualified remote action n
 ```js
 var getAccount = Premote.wrap('{!$RemoteAction.MyController.getAccount}');
 ```
+
+## Benefits
+
+The main benefits here is that **Premote** allows you to use true promises to manage asynchronouse flow control. If you aren't familiar with promises, I highly recommend you read the documentation from the [Q](https://github.com/kriskowal/q)] README.
