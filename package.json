@@ -1,0 +1,31 @@
+{
+  "name": "premote",
+  "version": "0.0.1",
+  "description": "wrap javascript remote actions in a promise api",
+  "main": "premote.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kevinohara80/premote.git"
+  },
+  "keywords": [
+    "premote",
+    "remote",
+    "actions",
+    "salesforce",
+    "forcedotcom"
+  ],
+  "author": "Kevin O'Hara",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kevinohara80/premote/issues"
+  },
+  "devDependencies": {
+    "grunt-contrib-clean": "~0.5.0",
+    "grunt": "~0.4.1",
+    "grunt-contrib-jshint": "~0.7.1",
+    "grunt-contrib-uglify": "~0.2.5"
+  }
+}
