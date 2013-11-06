@@ -6,6 +6,7 @@
 
     var namespace, controller, method;
 
+    var Manager = Visualforce.remoting.Manager;
     var parts = remoteAction.split('.');
 
     if(parts.length === 3) {
@@ -55,7 +56,7 @@
         args.push(options);
       }
 
-      Visualforce.remoting.Manager.invokeAction.apply(Visualforce, args);
+      Manager.invokeAction.apply(Manager, args);
 
       return deferred.promise;
     };
@@ -71,14 +72,3 @@
   root.Premote = Premote;
 
 }(this, Q, Visualforce));
-
-
-// var getAccount = Premote.wrap('MyTestController.getAccount');
-
-// getAccount(id).then(function(account) {
-//   console.log('got an account');
-//   console.log(account);
-// }).fail(function(error) {
-//   console.log('got an error');
-//   console.error(error);
-// });
