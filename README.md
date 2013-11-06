@@ -1,6 +1,6 @@
 # Premote
 
-Javascript Remoting in Visualforce has an ugly api. **Premote** fixes it by letting you wrap your Remote Action calls in a promise based on [Q](https://github.com/kriskowal/q).
+Javascript Remoting in Visualforce has an ugly api. **Premote** fixes this by letting you wrap your Remote Action calls in a promise based on [Q](https://github.com/kriskowal/q).
 
 ## Requirements
 
@@ -31,4 +31,10 @@ You can also wrap your Remote Action function calls with Visualforce Remoting op
 
 ```js
 var getAccount = Premote.wrap('MyController.getAccount', { escape: true, timeout: 10000 });
+```
+
+Remember that Visualforce has tags to output the fully-qualified remote action name (including namespace):
+
+```js
+var getAccount = Premote.wrap('{!$RemoteAction.MyController.getAccount}');
 ```
