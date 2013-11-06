@@ -106,4 +106,4 @@ createAccountWithContacts(account, contacts)
 
 ## Benefits
 
-The main benefit is that **Premote** allows you to use true promises to manage asynchronous flow control when invoking Javascript Remote Action. If you aren't familiar with promises, I highly recommend you read the documentation from the [Q](https://github.com/kriskowal/q) README.
+The main benefit is that **Premote** allows you to use true promises to manage asynchronous flow control when invoking Javascript Remote Actions. If you aren't familiar with promises, I highly recommend you read the documentation from the [Q](https://github.com/kriskowal/q) README.
