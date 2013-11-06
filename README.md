@@ -27,6 +27,23 @@ getAccount(accountId)
   });
 ```
 
+Here is the example controller and Apex method we are calling:
+
+```java
+global class MyController {
+
+  @RemoteAction
+  global static Account getAccount(String accountId) {
+    List<Account> accs = [SELECT Id, Name, Industry from Account WHERE Id = :accountId LIMIT 1];
+    if(accs.size() == 1) {
+        return accs.get(0);
+    }
+    return null;
+  }
+
+}
+```
+
 You can also wrap your Remote Action function calls with Visualforce Remoting options.
 
 ```js
