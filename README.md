@@ -8,8 +8,8 @@ To use Premote, you need to have [Q](https://github.com/kriskowal/q) imported on
 
 ## Installing
 
-* Include *Q* on your page in a `<script>` tag
-* Include *Premote* on your page using a script tag
+* Include **Q** on your page in a `<script>` tag
+* Include **Premote** on your page using a script tag
 
 ## Usage
 
