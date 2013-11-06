@@ -58,4 +58,4 @@ var getAccount = Premote.wrap('{!$RemoteAction.MyController.getAccount}');
 
 ## Benefits
 
-The main benefits here is that **Premote** allows you to use true promises to manage asynchronouse flow control. If you aren't familiar with promises, I highly recommend you read the documentation from the [Q](https://github.com/kriskowal/q) README.
+The main benefit is that **Premote** allows you to use true promises to manage asynchronous flow control when invoking Javascript Remote Action. If you aren't familiar with promises, I highly recommend you read the documentation from the [Q](https://github.com/kriskowal/q) README.
