@@ -1,5 +1,3 @@
-var act = {"Id":"a0gJ0000002oRRIIA2","Subject__c":"Modified yet again Benj","Type__c":"Progress Note"};
-
 /*global Q:false, Visualforce:false, define:false */
 
 (function(root, Q, Visualforce) {
