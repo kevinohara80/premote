@@ -1,8 +1,10 @@
 /*global Q:false, Visualforce:false, define:false */
 
-(function(root, Q, Visualforce) {
+(function(root) {
   "use strict";
-
+  
+  var Q = root.Q;
+  var Visualforce = root.Visualforce;
   var Premote = {};
 
   // Wrap a javascript remoting function in a promise
@@ -116,4 +118,4 @@
   // create the global
   root.Premote = Premote;
 
-}(this, Q, Visualforce));
+}(this));
