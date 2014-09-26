@@ -1,11 +1,27 @@
 /*global Q:false, Visualforce:false, define:false */
 
-(function(root) {
-  "use strict";
-  
-  var Q = root.Q;
-  var Visualforce = root.Visualforce;
+(function(name, definition, root){
+
+  if(typeof exports === 'object' && typeof module === 'object') {
+    module.exports = definition(require('q'));
+  } else if(typeof define === 'function' && typeof define.amd === 'object') {
+    define(['q'], definition);
+  } else {
+    root[name] = definition(window.Q);
+  }
+
+})('Premote', function(Q){
+
+  'use strict';
+
   var Premote = {};
+  var Visualforce;
+
+  if(!window || !window.Visualforce) {
+    throw new Error('Visualforce Remoting manager not found');
+  } else {
+    Visualforce = window.Visualforce;
+  }
 
   // Wrap a javascript remoting function in a promise
   // Only works if function is properly `bind`ed to the remoting manager. This
@@ -20,7 +36,7 @@
       } else {
         args = [];
       }
-      
+
       var cb = function(result, event) {
         if(event.status) {
           deferred.resolve(result);
@@ -31,7 +47,7 @@
             err.apexStackTrace = event.where;
           }
           deferred.reject(err);
-        } 
+        }
       };
 
       args.push(cb);
@@ -39,15 +55,15 @@
       if(options) {
         args.push(options);
       }
-      
+
       func.apply(null, args);
       return deferred.promise;
     };
   }
-  
+
   // public interface.  Can either wrap a string remoting name ('namespace.className.remoteMethod')
   // or a javascript remoting class (`className`)
-  // if provided, `options` will be appended to the promises's run-time arguments 
+  // if provided, `options` will be appended to the promises's run-time arguments
   Premote.wrap = function(remoteAction, options) {
 
     if(options && typeof options !== 'object') {
@@ -66,7 +82,7 @@
         }
       }
       return ret;
-    
+
     // if remoteAction is a string, turn it into a function
     } else if (typeof remoteAction === 'string') {
 
@@ -97,25 +113,19 @@
         }
 
         args.splice(0, 0, remoteAction);
-        
+
         Manager.invokeAction.apply(Manager, args);
       };
 
       return wrapFunction(bound, options);
-    
+
     // remoteAction was neither an object nor a string
     } else {
       throw new Error('invalid remote action supplied: ' + remoteAction);
     }
   };
 
-
-  // amd and requirejs support
-  if(typeof define === 'function' && define.amd) {
-    define(Premote);
-  }
-
   // create the global
-  root.Premote = Premote;
+  return Premote;
 
-}(this));
+}, (this || {}));
