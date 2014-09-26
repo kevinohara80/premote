@@ -1,6 +1,6 @@
 {
   "name": "premote",
-  "version": "0.0.1",
+  "version": "0.1.0-beta.1",
   "description": "wrap javascript remote actions in a promise api",
   "main": "premote.js",
   "scripts": {
