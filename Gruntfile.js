@@ -9,7 +9,7 @@ module.exports = function(grunt) {
         eqeqeq: true,
         undef: true,
         globals: {
-          'Q': true,
+          'Promise': true,
           'Visualforce': true,
           'module': true,
           'exports': true,

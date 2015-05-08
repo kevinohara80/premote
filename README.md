@@ -1,19 +1,19 @@
 # Premote
 
-[Javascript Remoting](http://www.salesforce.com/us/developer/docs/pages/Content/pages_js_remoting.htm) in Visualforce has an ugly api. **Premote** fixes this by letting you wrap your Remote Action calls in a promise based on [Q](https://github.com/kriskowal/q).
+[Javascript Remoting](http://www.salesforce.com/us/developer/docs/pages/Content/pages_js_remoting.htm) in Visualforce has an ugly api. **Premote** fixes this by letting you wrap your Remote Action calls in a promise based on the [Promises/A+](https://promisesaplus.com/) spec.
 
 ## Requirements
 
-To use Premote, you need to be using [Q](https://github.com/kriskowal/q).
+To use Premote, ES6-style `Promise` needs to be available in your environment.  Check [caniuse](http://caniuse.com/#feat=promises) and/or use a [polyfill](https://github.com/jakearchibald/es6-promise) to provide the interface.
 
 ## Installing
 
-* Include **Q** on your page in a `<script>` tag
+* Include **es6-promise** on your page in a `<script>` tag (if needed)
 * Include **Premote** on your page using a `<script>` tag
 
 ## Usage
 
-You simply use Premote's `wrap()` function to turn any Remote action function into function that returns a Q promise. Here is the basic usage:
+You simply use Premote's `wrap()` function to turn any Remote action function into function that returns a Promise. Here is the basic usage:
 
 ```js
 var getAccount = Premote.wrap('MyController.getAccount');
@@ -42,6 +42,20 @@ global class MyController {
   }
 
 }
+```
+
+You can also wrap an entire class at once:
+
+```js
+var wrappedController = Premote.wrap(MyController);
+
+wrappedController.getAccount(accountId)
+  .then(function(account) {
+    console.log('got the account: ' + account.Name);
+  })
+  .fail(function(error){
+    console.error(error.message);
+  });
 ```
 
 You can also wrap your Remote Action function calls with Visualforce Remoting options.
@@ -80,7 +94,7 @@ function createAccountWithContacts(account, contacts) {
         con.AccountId = acc.Id;
         promises.push(createContact(con));
       });
-      return Q.all(promises);
+      return Promise.all(promises);
     });
 };
 ```
@@ -106,4 +120,4 @@ createAccountWithContacts(account, contacts)
 
 ## Benefits
 
-The main benefit is that **Premote** allows you to use true promises to manage asynchronous flow control when invoking Javascript Remote Actions. If you aren't familiar with promises, I highly recommend you read the documentation from the [Q](https://github.com/kriskowal/q) README.
+The main benefit is that **Premote** allows you to use true promises to manage asynchronous flow control when invoking Javascript Remote Actions.

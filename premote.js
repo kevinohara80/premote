@@ -1,17 +1,17 @@
-/*global Q:false, Visualforce:false, define:false */
+/*global Visualforce:false, define:false, exports:false, module:false */
 
 (function(name, definition, root){
+  'use strict';
 
   if(typeof exports === 'object' && typeof module === 'object') {
-    module.exports = definition(require('q'));
+    module.exports = definition();
   } else if(typeof define === 'function' && typeof define.amd === 'object') {
-    define(['q'], definition);
+    define([], definition);
   } else {
-    root[name] = definition(window.Q);
+    root[name] = definition();
   }
 
-})('Premote', function(Q){
-
+})('Premote', function(){
   'use strict';
 
   var Premote = {};
@@ -29,7 +29,6 @@
   function wrapFunction (func, options) {
     return function() {
       var args;
-      var deferred = Q.defer();
 
       if(arguments.length) {
         args = Array.prototype.slice.apply(arguments);
@@ -37,27 +36,28 @@
         args = [];
       }
 
-      var cb = function(result, event) {
-        if(event.status) {
-          deferred.resolve(result);
-        } else {
-          var err = new Error(event.message);
-          err.result = result;
-          if(event.type === 'exception') {
-            err.apexStackTrace = event.where;
+      return new Promise(function(resolve, reject) {
+        var cb = function(result, event) {
+          if(event.status) {
+            resolve(result);
+          } else {
+            var err = new Error(event.message);
+            err.result = result;
+            if(event.type === 'exception') {
+              err.apexStackTrace = event.where;
+            }
+            reject(err);
           }
-          deferred.reject(err);
+        };
+
+        args.push(cb);
+
+        if(options) {
+          args.push(options);
         }
-      };
 
-      args.push(cb);
-
-      if(options) {
-        args.push(options);
-      }
-
-      func.apply(null, args);
-      return deferred.promise;
+        func.apply(null, args);
+      });
     };
   }
 
